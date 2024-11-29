@@ -23,7 +23,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public" 
               }
             ],
             "styles": [
@@ -97,5 +97,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "3cb70477-f106-45e2-ba6c-03500f33cbe3"
   }
 }

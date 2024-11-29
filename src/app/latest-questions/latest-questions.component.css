@@ -1,0 +1,74 @@
+/* latest-questions.component.css */
+.latest-questions {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5em;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+  background-color: white;
+  margin-bottom: 1.5em;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: box-shadow 0.2s;
+  position: relative; /* Set position for absolute child positioning */
+}
+
+.question:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.question-info, .question-body {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 0.5em; /* Margin below each section */
+}
+
+.votes, .views {
+  font-size: 0.9em;
+  color: #555;
+  margin-right: 1em; /* Space between votes/views and title/body */
+}
+
+.question-title {
+  font-size: 1.1em; /* Larger font size for the title */
+  flex-grow: 1; /* Allow title to grow */
+}
+
+.question-body {
+  font-size: 0.9em; /* Font size for the body */
+  margin-left: 0.5em; /* Slight margin to the left for body text */
+  flex-grow: 1; /* Allow body text to grow */
+}
+
+.tags-box {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5em;
+}
+
+.tag {
+  background-color: #e7f1ff;
+  color: #007bff;
+  padding: 0.3em 0.6em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* New styles for posted info */
+.posted-info {
+  position: absolute; /* Position it relative to the question box */
+  bottom: 10px; /* Position from the bottom */
+  right: 10px; /* Position from the right */
+  font-size: 0.8em; /* Smaller font size */
+  color: #777; /* Lighter color for secondary text */
+}
+
+.posted-by, .posted-date {
+  display: block; /* Display each on a new line */
+}

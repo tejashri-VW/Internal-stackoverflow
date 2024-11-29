@@ -1,13 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';  // Import FormsModule
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
+  standalone: true,  // Standalone component setup
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  imports: [RouterModule, FormsModule]  // Add FormsModule here
 })
 export class AppComponent {
-  title = 'ui';
+  searchQuery: string = '';  // Variable for binding with input field
+
+  constructor() {}
+
+  onSearch() {
+    if (this.searchQuery) {
+      console.log('Searching for:', this.searchQuery);  // Handle search logic
+    }
+  }
 }

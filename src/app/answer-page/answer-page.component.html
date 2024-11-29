@@ -1,0 +1,38 @@
+<div class="answer-page">
+  <div class="question-details">
+    <h2>{{ question.title }}</h2>
+    <p><strong>Posted by:</strong> {{ question.postedBy }} on {{ question.datePosted }}</p>
+    <p>{{ question.body }}</p>
+    <div class="tags-box">
+      <span class="tag" *ngFor="let tag of question.tags">{{ tag }}</span>
+    </div>
+    <div class="question-info">
+      <span class="votes">{{ question.votes }} votes</span>
+      <span class="views">{{ question.views }} views</span>
+    </div>
+  </div>
+
+  <h3>Answers</h3>
+  <div class="answer-list">
+    <div class="answer" *ngFor="let answer of answers">
+      <p><strong>Answered by:</strong> {{ answer.answeredBy }} on {{ answer.dateAnswered }}</p>
+      <p>{{ answer.body }}</p>
+    </div>
+  </div>
+
+  <h4>Post Your Answer</h4>
+  <form (ngSubmit)="submitAnswer()">
+    <textarea [(ngModel)]="answerBody" name="answer" placeholder="Type your answer here..." required></textarea>
+    
+    <!-- File Upload Input -->
+    <div class="file-upload">
+      <input type="file" (change)="onFileSelected($event)" />
+      <p *ngIf="selectedFileName">Selected file: {{ selectedFileName }}</p>
+      <div *ngIf="fileUploaded" class="success-message">
+        File uploaded successfully!
+      </div>
+    </div>
+
+    <button type="submit">Submit Answer</button>
+  </form>
+</div>

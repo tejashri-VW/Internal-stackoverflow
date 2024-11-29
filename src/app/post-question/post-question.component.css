@@ -1,0 +1,109 @@
+/* Main container for the post question form */
+.post-question {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for form labels */
+form label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+/* Styles for form input and textarea */
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.75em;
+  margin-top: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+/* Focus effect on inputs */
+form input:focus,
+form textarea:focus {
+  border-color: #007bff; /* Focus color */
+  outline: none;
+}
+
+/* Styles for the submit button */
+button {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Button hover effect */
+button:hover {
+  background: #0056b3; /* Darker shade on hover */
+}
+
+/* Success message styling */
+.success-message {
+  margin-top: 1em;
+  color: green;
+  font-weight: bold;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+/* Styles for the tag input section */
+.tag-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Styles for the input field inside tag input */
+.tag-input input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Styles for the container holding the tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Styles for individual tags */
+.tag {
+  background-color: #007bff; /* Tag background color */
+  color: white; /* Tag text color */
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Styles for the remove icon */
+.remove {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Hover effect for remove icon */
+.remove:hover {
+  color: red;
+}

@@ -1,0 +1,39 @@
+/* login.component.css */
+.login {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  form label {
+    display: block;
+    margin-top: 1em;
+    font-weight: bold;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 0.75em;
+    margin-top: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3; /* Darker shade on hover */
+  }
+  

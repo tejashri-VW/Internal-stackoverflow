@@ -1,0 +1,96 @@
+.my-profile {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2em;
+  background: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5em;
+}
+
+.box {
+  background-color: white;
+  padding: 1.5em;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.box:hover {
+  transform: scale(1.05); /* Slightly scale up the box */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.box h3 {
+  margin-top: 0.5em;
+  font-size: 1.2em;
+}
+
+.box p {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  color: #333;
+}
+
+.emoji {
+  font-size: 1.5em; /* Smaller size for emojis */
+  filter: grayscale(100%); /* Convert to black and white */
+}
+
+.total-questions {
+  background-color: white;
+}
+
+.answers-given {
+  background-color: white;
+}
+
+.avg-response-time {
+  background-color: white;
+}
+
+.recent-activities {
+  margin-top: 2em;
+}
+
+.activity-box {
+  background-color: white;
+  padding: 1.5em;
+  border-radius: 8px;
+  margin-bottom: 1.5em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.activity-box:hover {
+  transform: scale(1.05); /* Slightly scale up the activity box */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.activity-box p {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.activity-box .emoji {
+  font-size: 1.5em; /* Emoji size */
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}

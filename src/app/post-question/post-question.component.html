@@ -1,0 +1,34 @@
+<div class="post-question">
+  <h2>Post a Question</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label for="title">Title*</label>
+    <input type="text" id="title" [(ngModel)]="question" name="title" placeholder="Enter your question title" required />
+    <div *ngIf="!question && formSubmitted" class="error-message">Title is required.</div>
+
+    <label for="body">Body*</label>
+    <textarea id="body" [(ngModel)]="description" name="body" placeholder="Describe your question" required></textarea>
+    <div *ngIf="!description && formSubmitted" class="error-message">Description is required.</div>
+
+    <label for="tags">Programming Language Tags</label>
+    <div class="tag-input">
+      <input
+        type="text"
+        [(ngModel)]="currentTag"
+        
+        
+        (keydown)="onKeyDown($event)"
+        placeholder="Add a tag" name="tag" 
+      />
+      <div class="tags">
+        <span *ngFor="let tag of tags" class="tag">
+          {{ tag }}
+          <span class="remove" (click)="removeTag(tag)">&#10005;</span>
+        </span>
+      </div>
+    </div>
+
+    <button type="submit">Post Question</button>
+    
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  </form>
+</div>

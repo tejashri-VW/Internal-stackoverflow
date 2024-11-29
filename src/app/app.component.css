@@ -1,0 +1,147 @@
+/* General Styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: purple; /* Primary Color */
+  padding: 1em 2em; /* Increased padding for better spacing */
+  color: white;
+  max-width: 1200px; /* Maximum width for the navbar */
+  margin: 0 auto; /* Center the navbar */
+}
+
+.logo-container {
+  flex-shrink: 0; /* Prevent the logo from shrinking */
+  padding-right: 1em; /* Add spacing to the right of the logo */
+}
+
+.logo {
+  height: auto; /* Let height adjust automatically */
+  width: 220px; /* Adjust logo width for balance */
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 2em; /* Increased gap for better separation */
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 1.1em; /* Slightly larger font for better readability */
+}
+
+.nav-link:hover {
+  color: #ffd700; /* Gold on hover */
+}
+
+/* Search Bar Styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.search-bar {
+  padding: 0.5em;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 250px; /* Adjust width for the search bar */
+}
+
+.search-btn {
+  padding: 0.5em 1em;
+  background-color: white;
+  color: #333;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.search-btn:hover {
+  background-color: #ffcc00; /* Slight hover effect */
+}
+
+/* Responsive Design for Tablets and Mobile */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1em; /* Less padding on smaller screens */
+  }
+
+  .logo {
+    width: 180px; /* Slightly reduce logo size */
+  }
+
+  .nav-links {
+    gap: 1.5em; /* Reduce gap on medium screens */
+  }
+
+  .nav-link {
+    font-size: 1em; /* Adjust font size for readability */
+  }
+
+  .search-bar {
+    width: 200px; /* Adjust search bar width */
+  }
+}
+
+/* Responsive Design for Mobile (Phones) */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items on smaller screens */
+    align-items: flex-start; /* Align items to the left */
+    padding: 0.8em 1em; /* Adjust padding */
+  }
+
+  .nav-links {
+    flex-direction: column; /* Stack links vertically */
+    gap: 0.8em; /* Reduced gap for vertical layout */
+    width: 100%; /* Full width for the nav links */
+  }
+
+  .logo {
+    width: 150px; /* Reduce logo size on small screens */
+  }
+
+  .search-container {
+    flex-direction: column; /* Stack search bar and button vertically */
+    width: 100%; /* Make search container full-width */
+    margin-top: 1em;
+  }
+
+  .search-bar {
+    width: 100%; /* Make search bar take full width */
+    margin-bottom: 0.5em; /* Add space below the search bar */
+  }
+
+  .search-btn {
+    width: 100%; /* Make search button full-width */
+  }
+}
+
+/* Additional Adjustment for Extra Small Screens (Phones) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.8em 1em; /* Adjust padding for very small screens */
+  }
+
+  .logo {
+    width: 120px; /* Adjust logo width for very small screens */
+  }
+
+  .nav-links {
+    gap: 0.5em; /* Reduced gap for smaller screens */
+  }
+
+  .search-bar {
+    width: 100%; /* Full width search bar */
+  }
+
+  .search-btn {
+    width: 100%; /* Full width search button */
+  }
+}

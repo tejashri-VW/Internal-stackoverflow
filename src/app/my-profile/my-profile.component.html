@@ -1,0 +1,36 @@
+<div class="my-profile">
+  <h2>Dashboard</h2>
+  
+  <div class="dashboard">
+    <!-- Total Questions Box -->
+    <div class="box total-questions">
+      <span class="emoji">❓</span>
+      <h3>Total Questions</h3>
+      <p>{{ totalQuestions }}</p>
+    </div>
+
+    <!-- Answers Given Box -->
+    <div class="box answers-given">
+      <span class="emoji">✔️</span>
+      <h3>Answers Given</h3>
+      <p>{{ answersGiven }}</p>
+    </div>
+
+    <!-- Average Response Time Box -->
+    <div class="box avg-response-time">
+      <span class="emoji">⏰</span>
+      <h3>Avg. Response Time</h3>
+      <p>{{ avgResponseTime }} hrs</p>
+    </div>
+  </div>
+
+  <h3>Recent Activities</h3>
+  <div class="recent-activities">
+    <div *ngFor="let activity of recentActivities" class="activity-box">
+      <p><strong>{{ activity.title }}</strong></p>
+      <p>{{ activity.description }}</p>
+      <span class="emoji">{{ activity.emoji }}</span>
+      <p><small>{{ activity.date }}</small></p>
+    </div>
+  </div>
+</div>
