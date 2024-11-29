@@ -1,27 +1,2 @@
-<nav class="navbar">
-  <div class="logo-container">
-    <img src="logo.png" class="logo" alt="Organization Logo" />
-  </div>
-
-  <!-- Search Container -->
-  <div class="search-container">
-    <input 
-      type="text" 
-      [(ngModel)]="searchQuery" 
-      (keydown.enter)="onSearch()" 
-      class="search-bar" 
-      placeholder="Search..." />
-    <button (click)="onSearch()" class="search-btn">Search</button>
-  </div>
-
-  <div class="nav-links">
-    <a routerLink="/post-question" class="nav-link">Post a Question</a>
-    <a routerLink="/latest-questions" class="nav-link">Latest Questions</a>
-    <a [routerLink]="['/question', 1]" class="nav-link">Answer</a>
-    <a routerLink="/my-profile" class="nav-link">My Profile</a>
-    <a routerLink="/about" class="nav-link">About</a>
-  </div>
-</nav>
-
-<!-- Outlet for Routing -->
+<app-navbar></app-navbar>
 <router-outlet></router-outlet>

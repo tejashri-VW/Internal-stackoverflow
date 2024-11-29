@@ -94,3 +94,110 @@
     grid-template-columns: 1fr;
   }
 }
+
+.activity-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.activity-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 2rem;
+}
+
+.timeline {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 2;
+}
+
+.timeline-icon i {
+  font-size: 1.2rem;
+}
+
+.timeline-content {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  flex-grow: 1;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 1rem;
+  top: 2rem;
+  bottom: -2rem;
+  width: 2px;
+  background: #E8EAED;
+  z-index: 1;
+}
+
+.activity-text {
+  margin: 0;
+  color: #5F6368;
+  font-size: 0.95rem;
+}
+
+.activity-text strong {
+  color: #202124;
+  font-weight: 500;
+}
+
+.activity-date {
+  display: block;
+  color: #80868B;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 480px) {
+  .activity-container {
+    margin: 1rem auto;
+  }
+
+  .timeline-item {
+    padding-left: 2.5rem;
+  }
+
+  .timeline-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .timeline-icon i {
+    font-size: 1rem;
+  }
+
+  .timeline-line {
+    left: 0.875rem;
+  }
+
+  .activity-text {
+    font-size: 0.9rem;
+  }
+}
