@@ -1,74 +1,135 @@
-/* latest-questions.component.css */
 .latest-questions {
   max-width: 800px;
   margin: 0 auto;
-  padding: 1.5em;
-  background-color: #f4f4f4;
+  padding: 2em;
+  background-color: #f4f4f4; /* Light background similar to profile */
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; /* Consistent font */
 }
 
 .question {
   background-color: white;
-  margin-bottom: 1.5em;
-  padding: 1em;
+  margin-bottom: 2em;
+  padding: 1.5em;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: box-shadow 0.2s;
-  position: relative; /* Set position for absolute child positioning */
+  position: relative; /* Important for absolute positioning of posted-info */
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .question:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
 }
 
-.question-info, .question-body {
-  display: flex; /* Use flexbox for layout */
-  align-items: center; /* Align items vertically */
-  margin-bottom: 0.5em; /* Margin below each section */
+.question-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
 }
 
 .votes, .views {
-  font-size: 0.9em;
+  font-size: 1rem;
   color: #555;
-  margin-right: 1em; /* Space between votes/views and title/body */
+  font-weight: 500;
+}
+
+.votes {
+  margin-right: 1em;
 }
 
 .question-title {
-  font-size: 1.1em; /* Larger font size for the title */
-  flex-grow: 1; /* Allow title to grow */
+  font-size: 1.2em;
+  font-weight: 500;
+  flex-grow: 1;
+  color: #202124; /* Darker text color for the title */
 }
 
 .question-body {
-  font-size: 0.9em; /* Font size for the body */
-  margin-left: 0.5em; /* Slight margin to the left for body text */
-  flex-grow: 1; /* Allow body text to grow */
+  font-size: 1rem;
+  margin-left: 1em;
+  flex-grow: 1;
+  margin: 0;
+  color: #5F6368; /* Lighter text color for the body */
+}
+
+.question-info + div {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
 }
 
 .tags-box {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 0.5em;
+  margin-top: 1em;
 }
 
 .tag {
-  background-color: #e7f1ff;
-  color: #007bff;
-  padding: 0.3em 0.6em;
-  margin: 0 0.3em 0.3em 0;
-  border-radius: 3px;
-  font-size: 0.9em;
+  background-color: #e7f1ff; /* Light blue background for tags */
+  color: #007bff; /* Blue color for tag text */
+  padding: 0.4em 0.8em;
+  margin: 0.5em 0.5em 0.5em 0;
+  border-radius: 20px; /* Rounded corners for tags */
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-/* New styles for posted info */
 .posted-info {
-  position: absolute; /* Position it relative to the question box */
-  bottom: 10px; /* Position from the bottom */
-  right: 10px; /* Position from the right */
-  font-size: 0.8em; /* Smaller font size */
-  color: #777; /* Lighter color for secondary text */
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 0.85em;
+  color: #80868B; /* Subtle text color for metadata */
 }
 
 .posted-by, .posted-date {
-  display: block; /* Display each on a new line */
+  display: block;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .question {
+    padding: 1.5em 1em;
+  }
+
+  .question-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .question-title {
+    font-size: 1.15em;
+  }
+
+  .question-body {
+    font-size: 0.95rem;
+  }
+
+  .tags-box {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .question-title {
+    font-size: 1.05em;
+  }
+
+  .question-body {
+    font-size: 0.9rem;
+  }
+
+  .votes, .views {
+    font-size: 0.85em;
+  }
+
+  .tags-box {
+    flex-wrap: wrap;
+  }
 }

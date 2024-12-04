@@ -7,8 +7,8 @@
     background: rgba(95,25,57,255);
     padding: 0.75em 1.5em;
     color: white;
-    /*max-width: 1200px;*/
-    max-width: 100%;
+    /* max-width: 1100px; */
+    max-width: 100%; 
     margin: 0 auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     font-family: 'Poppins', sans-serif;
@@ -21,7 +21,7 @@
 
   .logo {
     height: auto;
-    width: 160px;
+    width: 260px;
     transition: transform 0.3s ease;
   }
 
@@ -83,7 +83,7 @@
     font-size: 0.9em;
     border-radius: 20px;
     border: 1px solid transparent;
-    width: 500px;
+    width: 400px;
     background-color: rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
     font-family: 'Poppins', sans-serif;
@@ -100,7 +100,7 @@
     background-color: #ffd700;
     color: #4a148c;
     border: none;
-    border-radius: 20px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 0.9em;
     font-weight: 500;
@@ -114,7 +114,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1100px) {
     .navbar {
       padding: 0.75em 1em;
     }
