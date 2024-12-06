@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {CommonModule, formatDate} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 interface Answer {
   answeredBy: string;
   dateAnswered: string;
   body: string;
+  attachments:any;
 }
 
 @Component({
@@ -66,10 +67,11 @@ export class AnswerPageComponent implements OnInit {
   }
 
   submitAnswer() {
-    const newAnswer: Answer = {
-      answeredBy: 'CurrentUser',
-      dateAnswered: new Date().toLocaleDateString(),
-      body: this.answerBody
+    const newAnswer:Answer = {
+      body: this.answerBody,
+      dateAnswered: new Date().getDate().toString(),
+      answeredBy: 'Current User', // This would typically come from auth service
+      attachments: this.selectedFileName ? [this.selectedFileName] : undefined
     };
 
     // Simulate file upload (you can replace this with actual file upload logic)
@@ -81,7 +83,7 @@ export class AnswerPageComponent implements OnInit {
       this.fileUploaded = true;
     }
 
-    this.answers.push(newAnswer);
+    this.answers.push(<Answer>newAnswer);
     this.answerBody = ''; // Reset the answer body
     this.selectedFile = null; // Reset the selected file
     this.selectedFileName = ''; // Reset the file name
@@ -96,4 +98,6 @@ export class AnswerPageComponent implements OnInit {
       this.fileUploaded = false; // Reset the uploaded status when a new file is selected
     }
   }
+
+  protected readonly formatDate = formatDate;
 }

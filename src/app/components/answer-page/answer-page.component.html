@@ -1,0 +1,77 @@
+<div class="answer-page">
+  <div class="question-details">
+    <h2>{{ question?.title }}</h2>
+    <p class="question-meta">
+      <strong>Posted by:</strong> {{ question?.postedBy }}
+      <span class="date">{{ formatDate(question?.datePosted,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
+    </p>
+    <p class="question-body">{{ question?.body }}</p>
+    <div class="tags-box">
+      <span class="tag" *ngFor="let tag of question?.tags">{{ tag }}</span>
+    </div>
+    <div class="question-stats">
+      <span class="stat votes">{{ question?.votes }} votes</span>
+      <span class="stat views">{{ question?.views }} views</span>
+    </div>
+  </div>
+
+  <div class="answers-section">
+    <h3>{{ answers.length }} Answers</h3>
+    <div class="answer-list">
+      <div class="answer" *ngFor="let answer of answers">
+        <div class="answer-content">
+          <p class="answer-body">{{ answer.body }}</p>
+          <div class="answer-meta">
+            <span class="answered-by">
+              <strong>Answered by:</strong> {{ answer.answeredBy }}
+            </span>
+            <span class="date">{{ formatDate(answer.dateAnswered,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
+          </div>
+          <div class="attachments" *ngIf="answer.attachments?.length">
+            <h4>Attachments:</h4>
+            <ul>
+              <li *ngFor="let attachment of answer.attachments">
+                {{ attachment }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-form">
+    <h4>Post Your Answer</h4>
+    <form (ngSubmit)="submitAnswer()">
+      <div class="form-group">
+        <textarea
+          [(ngModel)]="answerBody"
+          name="answer"
+          placeholder="Type your answer here..."
+          required
+        ></textarea>
+      </div>
+
+      <div class="file-upload">
+        <label for="file-input" class="file-label">
+          <span>Choose a file</span>
+          <input
+            type="file"
+            id="file-input"
+            (change)="onFileSelected($event)"
+          />
+        </label>
+        <p *ngIf="selectedFileName" class="file-name">
+          Selected file: {{ selectedFileName }}
+        </p>
+        <div *ngIf="fileUploaded" class="success-message">
+          File uploaded successfully!
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!answerBody.trim()">
+        Submit Answer
+      </button>
+    </form>
+  </div>
+</div>

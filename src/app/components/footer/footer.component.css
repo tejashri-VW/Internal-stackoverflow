@@ -1,0 +1,35 @@
+.footer {
+  margin-top: auto;
+  padding: 1.5rem 0;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+
+    p {
+      color: #ffffff;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      margin: 0;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 1rem 0;
+
+    .footer-content {
+      padding: 0 1rem;
+    }
+  }
+}
