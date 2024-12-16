@@ -1,13 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {CommonModule, formatDate} from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { CodeEditorComponent } from '../code-snippet/code-editor.component';
+import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Answer {
+  id:number;
   answeredBy: string;
-  dateAnswered: string;
+  dateAnswered: Date;
   body: string;
-  attachments:any;
+  attachments?: string[];
+  codeSnippets?: { language: string; code: string }[];
+  votes: number;
 }
 
 @Component({
@@ -15,17 +21,74 @@ interface Answer {
   standalone: true,
   templateUrl: './answer-page.component.html',
   styleUrls: ['./answer-page.component.css'],
-  imports: [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule, CodeEditorComponent, CodeSnippetComponent]
 })
 export class AnswerPageComponent implements OnInit {
-  question: any;
-  answers: Answer[] = [];
-  answerBody: string = '';
-  selectedFile: File | null = null; // To store the selected file
-  selectedFileName: string = ''; // To display the name of the selected file
-  fileUploaded: boolean = false; // To track file upload status
+  @ViewChild('answerTextarea') answerTextarea!: ElementRef;
 
-  constructor(private route: ActivatedRoute) {}
+  question: any;
+  answers: Answer[] = [
+    {
+      id: 1,
+      body: 'Here\'s how you can implement Angular routing with lazy loading:',
+      answeredBy: 'Jane Smith',
+      dateAnswered: new Date('2024-01-16'),
+      votes: 15,
+      codeSnippets: [
+        {
+          language: 'typescript',
+          code: `<div class="answer-content">
+  <div class="answer-body" [innerHTML]="formatContent(answer.body)"></div>
+<!--  <div *ngFor="let snippet of answer.codeSnippets">-->
+    <app-code-snippet
+      [code]="snippet.code"
+      [language]="snippet.language">
+    </app-code-snippet>
+  </div>
+</div>
+`
+        }
+      ]
+    },
+    {
+      id: 2,
+      body: 'To handle HTTP errors properly in Angular, use the catchError operator:',
+      answeredBy: 'John Doe',
+      dateAnswered: new Date('2024-01-17'),
+      votes: 8,
+      codeSnippets: [
+        {
+          language: 'typescript',
+          code: `@Injectable()
+export class ErrorHandlingService {
+  handleHttpError(error: HttpErrorResponse) {
+    let errorMessage = 'An error occurred';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Server-side error
+      errorMessage = \`Error Code: \${error.status}\nMessage: \${error.message}\`;
+    }
+
+    console.error(errorMessage);
+    return throwError(() => errorMessage);
+  }
+}`
+        }
+      ]
+    }
+  ];
+
+  answerBody: string = '';
+  selectedFileName: string = '';
+  fileUploaded: boolean = false;
+  codeSnippets: Array<{ code: string, language: string }> = [];
+  showCodeEditor = false;
+  uploadedImage: any;
+
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute) {}
 
   ngOnInit() {
     const questionId = this.route.snapshot.paramMap.get('id');
@@ -66,37 +129,70 @@ export class AnswerPageComponent implements OnInit {
     }
   }
 
-  submitAnswer() {
-    const newAnswer:Answer = {
-      body: this.answerBody,
-      dateAnswered: new Date().getDate().toString(),
-      answeredBy: 'Current User', // This would typically come from auth service
-      attachments: this.selectedFileName ? [this.selectedFileName] : undefined
-    };
-
-    // Simulate file upload (you can replace this with actual file upload logic)
-    if (this.selectedFile) {
-      // Handle the file upload logic (e.g., upload it to the server)
-      console.log('File to upload:', this.selectedFile);
-
-      // Simulate file upload success
-      this.fileUploaded = true;
-    }
-
-    this.answers.push(<Answer>newAnswer);
-    this.answerBody = ''; // Reset the answer body
-    this.selectedFile = null; // Reset the selected file
-    this.selectedFileName = ''; // Reset the file name
+  formatContent(content: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
-  // This function handles file selection
+  openCodeEditor() {
+    this.showCodeEditor = true;
+  }
+
+  onCodeSubmit(result: { code: string, language: string }) {
+    this.codeSnippets.push(result);
+    this.answerBody += `\n[code-snippet-${this.codeSnippets.length - 1}]\n`;
+    this.showCodeEditor = false;
+  }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
-      this.selectedFile = file;
       this.selectedFileName = file.name;
-      this.fileUploaded = false; // Reset the uploaded status when a new file is selected
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedImage = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+      this.fileUploaded = true;
     }
+  }
+
+
+  submitAnswer() {
+    if (!this.answerBody.trim()) return;
+
+    const processedBody = this.processBodyWithCodeSnippets(this.answerBody);
+
+    const newAnswer: Answer = {
+      id: this.answers.length + 1,
+      body: processedBody,
+      answeredBy: 'Current User',
+      dateAnswered: new Date(),
+      votes: 0,
+      attachments: this.selectedFileName ? [this.selectedFileName] : undefined,
+      codeSnippets: this.codeSnippets
+    };
+
+    this.answers.unshift(newAnswer);
+    this.answerBody = '';
+    this.selectedFileName = '';
+    this.fileUploaded = false;
+    this.codeSnippets = [];
+  }
+
+  private processBodyWithCodeSnippets(body: string): string {
+    return body.replace(
+      /\[code-snippet-(\d+)\]/g,
+      (_, index) => {
+        const snippet = this.codeSnippets[parseInt(index)];
+        return `<pre><code class="language-${snippet.language}">${this.escapeHtml(snippet.code)}</code></pre>`;
+      }
+    );
+  }
+
+  private escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   protected readonly formatDate = formatDate;

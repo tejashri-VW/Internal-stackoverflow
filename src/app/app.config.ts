@@ -5,7 +5,8 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { PostQuestionComponent } from './components/post-question/post-question.component';
 import { LatestQuestionsComponent } from './components/latest-questions/latest-questions.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { AnswerPageComponent } from './components/answer-page/answer-page.component'; // Import the AnswerPageComponent
+import { AnswerPageComponent } from './components/answer-page/answer-page.component';
+import {provideHttpClient, withFetch} from '@angular/common/http'; // Import the AnswerPageComponent
 
 const routes: Routes = [
   { path: '', redirectTo: '/latest-questions', pathMatch: 'full' },
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch())
   ]
 };

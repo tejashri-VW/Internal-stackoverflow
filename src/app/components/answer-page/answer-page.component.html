@@ -1,5 +1,13 @@
 <div class="answer-page">
   <div class="question-details">
+    <div class="question-stats">
+      <div class="stats">
+        <span class="votes">{{ question?.votes }} votes</span>
+        <span class="views">{{ question?.views }} views</span>
+      </div>
+    </div>
+
+    <div class="question-content">
     <h2>{{ question?.title }}</h2>
     <p class="question-meta">
       <strong>Posted by:</strong> {{ question?.postedBy }}
@@ -9,9 +17,6 @@
     <div class="tags-box">
       <span class="tag" *ngFor="let tag of question?.tags">{{ tag }}</span>
     </div>
-    <div class="question-stats">
-      <span class="stat votes">{{ question?.votes }} votes</span>
-      <span class="stat views">{{ question?.views }} views</span>
     </div>
   </div>
 
@@ -20,12 +25,21 @@
     <div class="answer-list">
       <div class="answer" *ngFor="let answer of answers">
         <div class="answer-content">
-          <p class="answer-body">{{ answer.body }}</p>
+          <div class="answer-body" [innerHTML]="formatContent(answer.body)"></div>
+          <div *ngFor="let snippet of answer.codeSnippets">
+            <app-code-snippet
+              [code]="snippet.code"
+              [language]="snippet.language">
+            </app-code-snippet>
+          </div>
           <div class="answer-meta">
             <span class="answered-by">
               <strong>Answered by:</strong> {{ answer.answeredBy }}
             </span>
-            <span class="date">{{ formatDate(answer.dateAnswered,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
+            <span class="date">{{ formatDate(answer.dateAnswered,"MM-DD-YYYY","EN") }}</span>
+          </div>
+          <div class="votes">
+            <span class="vote-count">{{ answer.votes }}</span> votes
           </div>
           <div class="attachments" *ngIf="answer.attachments?.length">
             <h4>Attachments:</h4>
@@ -44,11 +58,18 @@
     <h4>Post Your Answer</h4>
     <form (ngSubmit)="submitAnswer()">
       <div class="form-group">
+        <div class="editor-toolbar">
+          <button type="button" (click)="openCodeEditor()" class="toolbar-btn">
+            <span class="code-icon">&lt;/&gt;</span>
+            Code Snippet
+          </button>
+        </div>
         <textarea
           [(ngModel)]="answerBody"
           name="answer"
-          placeholder="Type your answer here..."
+          placeholder="Type your answer here... Use the code button above to insert code snippets"
           required
+          #answerTextarea
         ></textarea>
       </div>
 
@@ -74,4 +95,10 @@
       </button>
     </form>
   </div>
+
+  <app-code-editor
+    *ngIf="showCodeEditor"
+    (close)="showCodeEditor = false"
+    (submit)="onCodeSubmit($event)"
+  ></app-code-editor>
 </div>

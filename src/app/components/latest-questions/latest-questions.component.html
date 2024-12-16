@@ -1,24 +1,67 @@
 <div class="latest-questions">
-  <h3>Latest Questions</h3>
+  <div class="header-container">
+    <h2>Latest Questions</h2>
+    <div class="dropdown-container">
+      <label class="dropdown-label">Select Tech-Stack: </label>
+      <ng-select
+        id="technology-select"
+        [items]="groupedTechnologies"
+        [searchable]="true"
+        [bindLabel]="'name'"
+        [groupBy]="'category'"
+        [selectableGroup]="false"
+        (change)="filterQuestions($event)"
+        [clearable]="true"
+        class="technology-select">
+
+        <ng-template ng-option-tmp let-item="item">
+  <span class="tech-option" *ngIf="getTechCount(item)">
+    <span class="tech-name">{{ item.name }}</span>
+    <span class="tech-count">
+      ({{ getTechCount(item) }})
+    </span>
+  </span>
+        </ng-template>
+
+        <ng-template ng-footer-tmp let-item="item"  *ngIf="shouldShowFooter()" >
+          <div class="see-more-option"  (click)="showMore()">
+            <span class="see-more-text">See More Technologies</span>
+            <span class="remaining-count">+{{ remainingTechnologiesCount }} more</span>
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
   <div class="scrollable-content">
-  <div class="question" *ngFor="let question of questions">
-    <div class="question-info">
-      <div class="stats">
-        <span class="votes">{{ question.votes }} votes</span>
-        <span class="views">{{ question.views }} views</span>
-      </div>
-      <div class="main-content">
-        <a class="question-title" [routerLink]="['/question', question.id]">{{ question.title }}</a>
-        <p class="question-body">{{ question.body }}</p>
-        <div class="tags-box">
-          <span class="tag" *ngFor="let tag of question.tags">{{ tag }}</span>
-        </div>
-        <div class="posted-info">
-          <span class="posted-by">Posted by: {{ question.postedBy }}</span>
-          <span class="posted-date">{{ formatDate(question.postedDate,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
+    <div *ngIf="questions.length > 0; else noQuestionsTemplate">
+      <div class="question" *ngFor="let question of questions">
+        <div class="question-info">
+          <div class="stats">
+            <span class="votes">{{ question.votes }} votes</span>
+            <span class="views">{{ question.views }} views</span>
+          </div>
+          <div class="main-content">
+            <a class="question-title" [routerLink]="['/question', question.id]">{{ question.title }}</a>
+            <p class="question-body">{{ question.body }}</p>
+            <div class="tags-box">
+              <span class="tag" *ngFor="let tag of question.tags">{{ tag }}</span>
+            </div>
+            <div class="posted-info">
+              <span class="posted-by">Posted by: {{ question.postedBy }}</span>
+              <span class="posted-date">{{ formatDate(question.postedDate, "MM/dd/yyyy 'at' h:mma", "EN") }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <ng-template #noQuestionsTemplate>
+      <div class="no-questions">
+        <h3>No Questions Found</h3>
+        <p>
+          Please try selecting a different technology or
+          <a routerLink="/post-question" class="post-question-link">post a new question</a>.
+        </p>
+      </div>
+    </ng-template>
   </div>
-</div>
 </div>

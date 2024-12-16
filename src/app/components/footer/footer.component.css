@@ -1,7 +1,7 @@
 .footer {
   margin-top: auto;
   padding: 1.5rem 0;
-  background: linear-gradient(to right, #1e3c72, #2a5298);
+  background: rgba(95,25,57,255);
 
   .footer-content {
     max-width: 1200px;
