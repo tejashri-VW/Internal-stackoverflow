@@ -25,20 +25,6 @@ onKeyDown(event: KeyboardEvent) {
   successMessage: string = '';
   formSubmitted: boolean = false; // Track if the form has been submitted
 
-  // Method to add a tag
-  // addTag() {
-  //   const trimmedTag = this.currentTag.trim();
-  //   if (trimmedTag) {
-  //     if (!this.tags.includes(trimmedTag)) {
-  //       this.tags.push(trimmedTag);
-  //       this.currentTag = ''; // Clear the input after adding
-  //     } else {
-  //       // Optionally, provide feedback for duplicate tags
-  //       alert("Tag already exists!");
-  //     }
-  //   }
-  // }
-
 addTag(): void { 
   if (this.currentTag && !this.tags.includes(this.currentTag.trim())) { 
     this.tags.push(this.currentTag.trim());

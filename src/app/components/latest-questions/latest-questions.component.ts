@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, formatDate } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { QuestionService } from '../../services/questionService/question.service';
 
 @Component({
   selector: 'app-latest-questions',
@@ -19,23 +20,29 @@ export class LatestQuestionsComponent implements OnInit {
   searchQuery: string = '';
   isSearchActive: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private questionService: QuestionService) {}
 
   ngOnInit() {
     // Listen to query parameters for search
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['query'] || '';
-      debugger
-      const state = history.state;
-      if (state.results) {
-        // Use results passed via router state
-        this.questions = state.results;
-        this.isSearchActive = true;
-      } else if (this.searchQuery) {
-        // Fetch results if query exists but no state is passed
-        this.fetchSearchResults(this.searchQuery);
+
+      // Check if we are in the browser environment
+      if (typeof window !== 'undefined' && window.history) {
+        const state = window.history.state;
+        if (state && state.results) {
+          // Use results passed via router state
+          this.questions = state.results;
+          this.isSearchActive = true;
+        } else if (this.searchQuery) {
+          // Fetch results if query exists but no state is passed
+          this.fetchSearchResults(this.searchQuery);
+        } else {
+          // Load default questions
+          this.loadQuestions();
+        }
       } else {
-        // Load default questions
+        // Handle non-browser environments (e.g., SSR)
         this.loadQuestions();
       }
     });
@@ -45,9 +52,10 @@ export class LatestQuestionsComponent implements OnInit {
   }
 
   /**
-   * Load default questions.
+   * Load default questions (hardcoded data).
    */
   private loadQuestions() {
+    // Hardcoded default questions
     this.originalQuestions = [
       {
         id: '1',
@@ -80,8 +88,23 @@ export class LatestQuestionsComponent implements OnInit {
         postedDate: '2024-12-02'
       }
     ];
+
     this.questions = [...this.originalQuestions];
     this.isSearchActive = false;
+    this.groupTechnologies();
+  }
+
+  /**
+   * Fetch search results based on a query.
+   */
+  fetchSearchResults(query: string) {
+    // Filtering questions based on query
+    this.questions = this.originalQuestions.filter(question =>
+      question.title.toLowerCase().includes(query.toLowerCase()) ||
+      question.body.toLowerCase().includes(query.toLowerCase()) ||
+      question.tags.some((tag: any) => tag.toLowerCase().includes(query.toLowerCase()))
+    );
+    this.isSearchActive = true;
   }
 
   /**
@@ -92,21 +115,6 @@ export class LatestQuestionsComponent implements OnInit {
     this.groupedTechnologies = allTechnologies
       .filter(tech => this.getTechCount(tech) > 0)
       .slice(0, this.initialTechCount);
-  }
-
-  /**
-   * Fetch search results based on a query.
-   * TODO Replace this logic with an actual backend API call.
-   */
-  fetchSearchResults(query: string) {
-    // TODO
-    this.questions = this.originalQuestions.filter(question =>
-      question.title.toLowerCase().includes(query.toLowerCase()) ||
-      question.body.toLowerCase().includes(query.toLowerCase()) ||
-      question.tags.some((tag:any) => tag.toLowerCase().includes(query.toLowerCase()))
-    );
-
-    this.isSearchActive = true;
   }
 
   /**
@@ -137,7 +145,7 @@ export class LatestQuestionsComponent implements OnInit {
    */
   getTechCount(technology: any): number {
     return this.originalQuestions.filter(question =>
-      question.tags.some((tag:any) => tag.toLowerCase() === technology.id.toLowerCase())
+      question.tags.some((tag: any) => tag.toLowerCase() === technology.id.toLowerCase())
     ).length;
   }
 
@@ -155,7 +163,7 @@ export class LatestQuestionsComponent implements OnInit {
   filterQuestions(technology: any) {
     if (technology && technology.id) {
       this.questions = this.originalQuestions.filter(question =>
-        question.tags.some((tag:any) => tag.toLowerCase() === technology.id.toLowerCase())
+        question.tags.some((tag: any) => tag.toLowerCase() === technology.id.toLowerCase())
       );
     } else {
       this.questions = [...this.originalQuestions];
