@@ -51,6 +51,7 @@ export class LatestQuestionsComponent implements OnInit {
     this.groupTechnologies();
   }
 
+
   /**
    * Load default questions (hardcoded data).
    */
