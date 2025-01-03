@@ -1,52 +1,47 @@
 package com.volkswagen.internal_stackoverflow.controller;
 
-import com.volkswagen.internal_stackoverflow.entity.Answer;
-import com.volkswagen.internal_stackoverflow.entity.Question;
+import com.volkswagen.internal_stackoverflow.dto.AnswerDto;
 import com.volkswagen.internal_stackoverflow.service.AnswerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("api/answers")
 public class AnswerController {
 
-    @Autowired
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
-    // POST /answers/{questionId} - Create a new answer for a particular question
-    @PostMapping("/{questionId}")
-    public ResponseEntity<Answer> createAnswer(@PathVariable Long questionId, @RequestBody Answer answer) {
-        answer.setQuestion(new Question());
-        answer.getQuestion().setId(questionId);
-        return ResponseEntity.status(201).body(answerService.createAnswer(answer));
+    public AnswerController(AnswerService answerService) {
+        this.answerService = answerService;
     }
 
-    // PUT /answers/{id} - Edit an existing answer
+    @GetMapping("/question/{questionId}")
+    public ResponseEntity<List<AnswerDto>> getAnswersByQuestion(@PathVariable Long questionId) {
+        return ResponseEntity.ok(answerService.findByQuestionId(questionId));
+    }
+
+    @PostMapping
+    public ResponseEntity<AnswerDto> createAnswer(@RequestBody AnswerDto answerDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(answerService.saveAnswer(answerDto));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Answer> updateAnswer(@PathVariable Long id, @RequestBody Answer answer) {
-        answer.setId(id); // Ensure the ID is passed correctly
-        return ResponseEntity.ok(answerService.createAnswer(answer));
+    public ResponseEntity<AnswerDto> updateAnswer(@PathVariable Long id, @RequestBody AnswerDto answerDto) {
+        return ResponseEntity.ok(answerService.updateAnswerById(id, answerDto));
     }
 
-    // DELETE /answers/{id} - Delete an answer
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAnswer(@PathVariable Long id) {
-        answerService.deleteAnswer(id);
+        answerService.deleteAnswerById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // POST /answers/{id}/approve - Approve an answer
     @PostMapping("/{id}/approve")
-    public ResponseEntity<Answer> approveAnswer(@PathVariable Long id) {
-        return ResponseEntity.ok(answerService.approveAnswer(id));
-    }
-
-    // GET /answers/{question_id} - Get all the answers for a particular question
-    @GetMapping("/{question_id}")
-    public List<Answer> getAnswersForQuestion(@PathVariable Long question_id) {
-        return answerService.getAnswersForQuestion(question_id);
+    public ResponseEntity<AnswerDto> approveAnswer(@PathVariable Long id) {
+        return ResponseEntity.ok(answerService.approveAnswerById(id));
     }
 }
