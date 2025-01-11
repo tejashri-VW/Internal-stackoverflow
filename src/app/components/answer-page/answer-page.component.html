@@ -8,20 +8,20 @@
     </div>
 
     <div class="question-content">
-    <h2>{{ question?.title }}</h2>
-    <p class="question-meta">
-      <strong>Posted by:</strong> {{ question?.postedBy }}
-      <span class="date">{{ formatDate(question?.datePosted,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
-    </p>
-    <p class="question-body">{{ question?.body }}</p>
+    <h3>{{ question?.title }}</h3>
+    <p class="question-body">{{ question?.description }}</p>
+      <p class="question-meta">
+        <strong>Posted by:</strong> {{ question?.userName }}
+        <span class="date">{{ formatDate(question?.postedOn,"MM/dd/yyyy 'at' h:mma","EN") }}</span>
+      </p>
     <div class="tags-box">
-      <span class="tag" *ngFor="let tag of question?.tags">{{ tag }}</span>
+      <span class="tag" *ngFor="let tag of question?.tags">{{ tag.name }}</span>
     </div>
     </div>
   </div>
 
   <div class="answers-section">
-    <h3>{{ answers.length }} Answers</h3>
+    <h3>{{ answers?.length || 0 }} Answers</h3>
     <div class="answer-list">
       <div class="answer" *ngFor="let answer of answers">
         <div class="answer-content">

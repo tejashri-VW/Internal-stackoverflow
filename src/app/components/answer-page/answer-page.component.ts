@@ -5,10 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { CodeEditorComponent } from '../code-snippet/code-editor.component';
 import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {AnswerService} from '../../services/answerService/answer.service';
 
 interface Answer {
-  id:number;
-  answeredBy: string;
+  questionId:number;
+  userId: number;
   dateAnswered: Date;
   body: string;
   attachments?: string[];
@@ -27,60 +28,9 @@ export class AnswerPageComponent implements OnInit {
   @ViewChild('answerTextarea') answerTextarea!: ElementRef;
 
   question: any;
-  answers: Answer[] = [
-    {
-      id: 1,
-      body: 'Here\'s how you can implement Angular routing with lazy loading:',
-      answeredBy: 'Jane Smith',
-      dateAnswered: new Date('2024-01-16'),
-      votes: 15,
-      codeSnippets: [
-        {
-          language: 'typescript',
-          code: `<div class="answer-content">
-  <div class="answer-body" [innerHTML]="formatContent(answer.body)"></div>
-<!--  <div *ngFor="let snippet of answer.codeSnippets">-->
-    <app-code-snippet
-      [code]="snippet.code"
-      [language]="snippet.language">
-    </app-code-snippet>
-  </div>
-</div>
-`
-        }
-      ]
-    },
-    {
-      id: 2,
-      body: 'To handle HTTP errors properly in Angular, use the catchError operator:',
-      answeredBy: 'John Doe',
-      dateAnswered: new Date('2024-01-17'),
-      votes: 8,
-      codeSnippets: [
-        {
-          language: 'typescript',
-          code: `@Injectable()
-export class ErrorHandlingService {
-  handleHttpError(error: HttpErrorResponse) {
-    let errorMessage = 'An error occurred';
+  answers: any;
 
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Server-side error
-      errorMessage = \`Error Code: \${error.status}\nMessage: \${error.message}\`;
-    }
-
-    console.error(errorMessage);
-    return throwError(() => errorMessage);
-  }
-}`
-        }
-      ]
-    }
-  ];
-
+  questionId: any;
   answerBody: string = '';
   selectedFileName: string = '';
   fileUploaded: boolean = false;
@@ -88,45 +38,20 @@ export class ErrorHandlingService {
   showCodeEditor = false;
   uploadedImage: any;
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute) {}
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute,
+              private answerService: AnswerService,) {}
 
   ngOnInit() {
-    const questionId = this.route.snapshot.paramMap.get('id');
-    this.loadQuestion(questionId);
+    this.questionId = this.route.snapshot.paramMap.get('id');
+    this.loadQuestion(this.questionId);
   }
 
-  loadQuestion(id: string | null) {
-    if (id === '1') {
-      this.question = {
-        title: 'Is there a way to create formula in Catia via Macro to link parameters?',
-        body: 'The main goal is to link between two parameters via...',
-        votes: 0,
-        views: 2,
-        tags: ['Python', 'PHP'],
-        postedBy: 'Tj',
-        datePosted: '11/09/2023'
-      };
-    } else if (id === '2') {
-      this.question = {
-        title: 'How to implement an HTTP request in Angular?',
-        body: 'Can someone explain how to make an HTTP request in Angular?',
-        votes: 5,
-        views: 10,
-        tags: ['Angular', 'HTTP'],
-        postedBy: 'Alex',
-        datePosted: '11/10/2023'
-      };
-    } else if (id === '3') {
-      this.question = {
-        title: 'What are some best practices for REST API design?',
-        body: 'I’m looking for recommendations on REST API design best practices.',
-        votes: 3,
-        views: 7,
-        tags: ['REST', 'API'],
-        postedBy: 'Sam',
-        datePosted: '11/11/2023'
-      };
-    }
+  loadQuestion(id: any) {
+    this.answerService.getAnswerByQId(id).subscribe((result) => {
+      this.question = result.question;
+      console.log(this.question);
+      this.answers = result.answers || []; // Ensure answers list is initialized
+    });
   }
 
   formatContent(content: string): SafeHtml {
@@ -161,32 +86,34 @@ export class ErrorHandlingService {
     if (!this.answerBody.trim()) return;
 
     const processedBody = this.processBodyWithCodeSnippets(this.answerBody);
+    debugger
 
     const newAnswer: Answer = {
-      id: this.answers.length + 1,
+      questionId: this.questionId,
       body: processedBody,
-      answeredBy: 'Current User',
+      userId: this.question.userId,
       dateAnswered: new Date(),
       votes: 0,
       attachments: this.selectedFileName ? [this.selectedFileName] : undefined,
-      codeSnippets: this.codeSnippets
+      codeSnippets: [...this.codeSnippets]
     };
 
-    this.answers.unshift(newAnswer);
-    this.answerBody = '';
-    this.selectedFileName = '';
-    this.fileUploaded = false;
-    this.codeSnippets = [];
+    this.answerService.submitAnswer(newAnswer).subscribe(
+      result => {
+        this.answers.unshift(result);
+        this.fileUploaded = false;
+        this.codeSnippets = [];
+        this.answerBody = '';
+        this.selectedFileName = '';
+      },error => {
+        console.log(error);
+      }
+    );
   }
 
   private processBodyWithCodeSnippets(body: string): string {
-    return body.replace(
-      /\[code-snippet-(\d+)\]/g,
-      (_, index) => {
-        const snippet = this.codeSnippets[parseInt(index)];
-        return `<pre><code class="language-${snippet.language}">${this.escapeHtml(snippet.code)}</code></pre>`;
-      }
-    );
+    debugger
+    return body.replace(/\[code-snippet-\d+\]/g, '').trim();
   }
 
   private escapeHtml(text: string): string {
