@@ -1,7 +1,13 @@
 package com.volkswagen.internal_stackoverflow.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,11 +24,14 @@ public class Question {
 	private String title;
 
 	@Lob
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String description;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id",nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	@ToString.Exclude
 	private User user;
 
 	@Column(name = "created_at")

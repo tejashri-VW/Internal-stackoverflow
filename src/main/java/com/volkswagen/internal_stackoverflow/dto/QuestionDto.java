@@ -1,5 +1,6 @@
 package com.volkswagen.internal_stackoverflow.dto;
 
+import com.volkswagen.internal_stackoverflow.entity.Tag;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,5 +12,7 @@ public class QuestionDto {
     private String title;
     private String description;
     private Long userId;
-    private List<String> tags;
+    private String userName;
+    private LocalDateTime postedOn;
+    private List<Tag> tags;
 }
