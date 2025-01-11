@@ -74,15 +74,15 @@ public class QuestionService {
         dto.setId(question.getId());
         dto.setTitle(question.getTitle());
         dto.setDescription(question.getDescription());
+        dto.setPostedOn(question.getCreatedAt());
 
         if (question.getUser() != null) {
             dto.setUserId(question.getUser().getId());
+            dto.setUserName(userRepository.findById(question.getUser().getId()).get().getUsername());
         }
 
         if (question.getTags() != null) {
-            dto.setTags(question.getTags().stream()
-                    .map(Tag::getName)
-                    .collect(Collectors.toList()));
+            dto.setTags(question.getTags());
         }
 
         return dto;
@@ -102,10 +102,10 @@ public class QuestionService {
 
         if (dto.getTags() != null) {
             List<Tag> tags = dto.getTags().stream()
-                    .map(tagName -> tagRepository.findByName(tagName)
+                    .map(tagName -> tagRepository.findByName(tagName.getName())
                             .orElseGet(() -> {
                                 Tag tag = new Tag();
-                                tag.setName(tagName);
+                                tag.setName(tagName.getName());
                                 return tagRepository.save(tag);
                             }))
                     .collect(Collectors.toList());
@@ -121,10 +121,10 @@ public class QuestionService {
 
         if (dto.getTags() != null) {
             List<Tag> tags = dto.getTags().stream()
-                    .map(tagName -> tagRepository.findByName(tagName)
+                    .map(tagName -> tagRepository.findByName(tagName.getName())
                             .orElseGet(() -> {
                                 Tag tag = new Tag();
-                                tag.setName(tagName);
+                                tag.setName(tagName.getName());
                                 return tagRepository.save(tag);
                             }))
                     .collect(Collectors.toList());

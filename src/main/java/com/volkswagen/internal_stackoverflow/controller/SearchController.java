@@ -1,5 +1,6 @@
 package com.volkswagen.internal_stackoverflow.controller;
 
+import com.volkswagen.internal_stackoverflow.dto.QuestionDto;
 import com.volkswagen.internal_stackoverflow.entity.Question;
 import com.volkswagen.internal_stackoverflow.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class SearchController {
 
     @Autowired
@@ -16,7 +17,7 @@ public class SearchController {
 
     // GET /search - Search for questions based on keywords and tags
     @GetMapping
-    public Page<Question> search(
+    public Page<QuestionDto> search(
             @RequestParam String keyword,
             @RequestParam(required = false) String tag,
             @RequestParam(value = "page", defaultValue = "0") int page,
